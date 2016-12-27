@@ -1,0 +1,8 @@
+** 1.4 Extending Lisp
+
+There are two ways to add new operators to Lisp: functions and macros. In Lisp,
+functions you define have the same status as the build-in ones. If you want a new
+variant of mapcar, you can define one yourself and use it just as you would use
+mapcar. For example, if you want a list of the values returned by some function
+when it is applied to all the integers from 1 to 10, you could create a new list
+and pass it to mapcar:
