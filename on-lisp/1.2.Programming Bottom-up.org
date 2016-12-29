@@ -1,4 +1,4 @@
-** Programming Bottom-Up
+** Programming Bottom-Up (상향식 프로그래밍)
 
 It's a long-standing principle of programming style that the functional elements
 of a a program should not be too large. If some component of a program grows
@@ -74,3 +74,7 @@ ence os Lisp programming suggests a more cheerful way to phrase this law: as the
 the group decreases, the productivity of individual programmers goes up. A small group
 wins, relatively speaking, simply because it's smaller. When a small group also takes
 advantage of the technique that Lisp makes possible, it can win outright.
+
+하향식(Top-down) 프로그래밍에서는 프로그램을 기능별로 구분하고, 또 그 기능을 서브 루틴으로 구분해 
+나가면서 프로그램을 완성한다. 리습에서는 반대로한다. 이렇게 함으로써 더 작고, 간결하고, 재사용 
+가능한 코드를 작성할 수 있다.  (2016.12.26)

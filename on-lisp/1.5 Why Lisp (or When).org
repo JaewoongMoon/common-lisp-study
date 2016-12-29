@@ -1,0 +1,42 @@
+** 1.5 Why Lisp (or When ) (왜 (또는 언제) 리습인가)
+ new possibilities do not stem from a single magic ingredient. In this respect,
+Lisp is like an arch. Which of the wedge-shaped stones (voussoirs) is the one that
+holds up the arch? The question itself is mistaken; they all do. Like an arch, Lisp
+is a collection of interlocking features. We can list some of these features-dynamic
+storage allocation and garbage collection, runtime typing, functions as objects, a 
+built-in parser which generates lists, a compiler which accepts programs expressed as
+lists, an interactive envionment, and so on-but the power of Lisp cannot be traced to
+any single one of them. It is the combination which makes Lisp programming what it is. 
+
+ Over the past twenty years, the way people program has changed. Many of these changes-
+interactive environments, dynamic linking, even object-oriented programming-have been
+piecemeal attempts to give other languages some of the flexibility of Lisp. The metphor
+of the arch suggests how well they have succeeded.
+
+ It is widely known that Lisp and Fortran are the two oldest languages still in use. 
+What is perhaps more significant is that they represent opposite poles in the philo-
+sophy of language design. Fortran was invented as a step up from assembly language.
+Lisp was invented as a language for expressing algorithms. Such different intentions
+yielded vastly different languages. Fortran makes life easy for the compiler writer;
+Lisp makes life easy for the programmer. Most programming languages since have fallen
+somewhere between the two poles. Fortran and Lisp have themselves moved closer to the
+center. Fortran now looks more like Algol, and Lisp has given up some of the wasteful
+habits of it youth. 
+
+ The original Fortran ans Lisp defined a sort of battlefield. On one side the battle
+cry is "Efficiency! (And besides, it would be too hard to implement.)" On the other
+side, the battle cry is "Abstraction! (And anyway, this isn't production software.)"
+As the gods determined from afar the outcomes of battles among the ancient Greeks, 
+the outcome of this battle is being determined by hardware. Every year, things look
+better for Lisp. The arguments against Lisp are now starting to sound very much like
+the arguments that assembly language programmers gave against high-level languages in
+the early 1970s. The question is now becomming noy Why Lisp?, but When?
+
+리습의 힘은 그 특성(가지비 컬렉션, 동적 타이핑, 오브젝트로서의 펑션, REPL 등) 을 조합(컴비네이션)하는 
+것에 있다. 
+ 가장 오래된 두 언어인 Fortran 과 Lisp 은 서로 양극단의 대척점(효율과 추상)에 있는데, 
+그 동안 서로의 장점을 흡수하면서 발전해 왔다.  
+그렇지만 오늘날의 상황은 하드웨어의 발전으로 인해 Lisp 진영이 우세한 것으로 보인다.  
+이제는 왜 Lisp 인지가 아니라 언제 Lisp인지로 질문이 바뀐 것이다. (2016.12.29)
+
+

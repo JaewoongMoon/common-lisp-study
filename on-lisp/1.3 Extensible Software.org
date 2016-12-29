@@ -1,0 +1,55 @@
+** 1.3 Extensible Software (확장가능한 소프트웨어)
+
+The Lisp style of programming is one that has grown in importance as software
+has grown in complexity. Sophisticated users now demand so much from software
+that we can't possibly anticipate all their needs. They themselves can't anticipate
+all their needs. Buf if we can't give them software which does everything they want
+right out of the box, we can give them software which is extensible. We transform
+our software from a mere program into a programming language, and advanced users
+can build upon it the extra features that they need.
+
+ Bottom-up design leads naturally to extensible programs. The simplest bottom-up
+programs consist of two layers: language and program. Complex programs may be
+written as a series of layers, each one acting as a programming language for
+the one above. If this philosophy is carried all the way up to the topmost layer,
+that layer becomes a programming language for the user. Such a program, where
+extensibility permeates every level, is likely to make a much better programming
+language than a system which was written as a traditional black-box, and then
+made extensible as an afterthought.
+
+ X Window and TEX are early examples of programs based on this principle. In the
+1980s better hardware made possible a new generation of programs which had Lisp
+as their extension language. The first was Gnu Emacs, the popular Unix text-editor.
+Later came Autocad, the first large-scale commercial product to provide Lisp as
+an extension language. In 1991 Interleaf released a new version of its software
+that not only had Lisp as an extension language, but was largely implemented in
+Lisp.
+
+ Lisp is an especially good language for writing extensible programs because it it
+itself an extensible program. If you write your Lisp programs so as to pass this
+extensibility on to the user, you effectively get an extension language for free.
+And the difference between extending a Lisp program in Lisp, and doing the same
+thing in a traditional language, is like the difference between meeting someone
+in person and conversing by letters. In a program which is made extensible simply
+by providing access to outside programs, the best we can hope for is two black
+boxes communicating with one another through some predefined channel. In Lisp,
+extensions can have direct access to the entire underlying program. This is not
+to say that you have to give users access to every part of your program-just that
+you now have a choice about whether to give them access or not.
+
+ When this degree of access is combined with an interactive environment, you have
+extensibility at its best. Any program that you might use as a foundation for
+extensions of your own is likely to be fairly big-too big, probably, for you to
+have a complete mental picture of it. What happens when you're unsure of something?
+If the original program is written in Lisp, you can probe it interactively: you can
+inspect its data structures; you can call its functions; you may even be able to
+program with a high degree of confidence-to write more ambitious extensions, and
+to write them faster. An interactive environment always makes programming easier,
+but it is nowhere more valuable than when one is writing extensions.
+
+ An extensible program is a double-edged sword, but recent experience has shown
+that users perfer a double-edged to a blunt one. Extensible programs seem to
+prevail, whatever their inherent dangers.
+
+보톰-업 (상향식) 프로그래밍이 확장가능한 소프트웨어를 만드는 것을 가능하게 한다.
+그리고 인터랙티브한 환경(REPL) 은 그 것을 도와준다. (2016.12.27)

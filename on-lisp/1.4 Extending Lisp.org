@@ -1,4 +1,4 @@
-** 1.4 Extending Lisp
+** 1.4 Extending Lisp (리습확장)
 
 There are two ways to add new operators to Lisp: functions and macros. In Lisp,
 functions you define have the same status as the build-in ones. If you want a new
@@ -6,3 +6,68 @@ variant of mapcar, you can define one yourself and use it just as you would use
 mapcar. For example, if you want a list of the values returned by some function
 when it is applied to all the integers from 1 to 10, you could create a new list
 and pass it to mapcar:
+
+(mapcar fn
+        (do* ((x 1 (1+ x))
+              (result (list x) (push x result)))
+            ((= x 10) (nreverse result))))
+
+but this approach is both ugly and inefficient. Instread you could define a new
+mapping funciton map1-n (see page 54), and then call it as follows:
+
+(map1-n fn 10) 
+
+ Defining functions is comparatively straightforward. Macros provide a more general,
+but less well-understood, means of defining new operators. Macros are programs that
+write programs. This statement has far-reaching implications, and exploring them
+is one of the main purpose of this book. 
+ 
+ The thoughtful use of macros leads to programs which are marvels of clarity and 
+elegance. These gems are not to be had for nothing. Eventually macros will seem 
+the most natural thing in the world, but they can be hard to understand at first.
+Partly this is because they are more general than functions, so there is more to 
+keep in mind when writing them. But the main reason macros are hard to understand
+is that they're foreign. No other language has anything like Lisp macros. Thus 
+learning about macros may entail unlearning preconceptions inadvertently picked up
+from other languages. Foremost among these is the notion of a program as something
+afflicted by rigor mortis. Why should data structures be fluid and changeable, but
+programs not? In Lisp, programs are data, but the implications of this fact take a
+while to sink in.
+
+ If it takes some time to get used to macros, it is well worth the effort. Even in
+such mundane uses as iteration, macros can make programs significantly smaller and 
+cleaner. Suppose a program must iterate over some body of code for x from a to b.
+The built-in Lisp do is meant for more general cases. For simple iteration it does
+not yield the most readable code:
+
+(do ((x a (+ 1 x)))
+((> x b))
+(print x))
+
+Instead, suppose we could just say:
+(for (x a b)
+  (print x))
+
+Macros make this possible. With six lines of code (see page 154) we can add for 
+to the language, just as if it had been there from the start. And as later chapters
+will show, writing for is only the beginning of what you can do with macros. 
+
+ You're not limited to extending Lisp on function or macro at a time. If you need
+to, you can build a whole language on top of Lisp, and write your programs it that.
+Lisp is an excellent language for writing compilers and interpreters, but it offers
+another way of defining a new language which is often more elegant and certainly 
+much less work: to define the new language as a modification of Lisp. Then the parts 
+of Lisp which can appear unchanged in the new language (e.g. arithmetic or I/O) can
+be used as is, and you only have to implement the parts which are different (e.g.
+control structure). A language implemented in this way is called an embedded 
+language.
+
+ Embedded languages are a natural outgrowth of bottom-up programming. Common Lisp
+includes several already. The most famous of them, CLOS, is discussed in the last
+chapter. But you can define embedded languages of your own, too. You can have the
+language which suits your program, even if it ends up looking quite different from
+Lisp.
+
+Lisp 을 확장해서 새로운 문법을 만들 수도 있다.  예를들면 for each 같은..
+이 것은 매크로에 의해서 가능하다. 매크로를 이용해서 Lisp 과는 전혀 다르게 보이는 새로운 언어를 
+창조할 수도 있는 것이다.  (2016.12.28)
