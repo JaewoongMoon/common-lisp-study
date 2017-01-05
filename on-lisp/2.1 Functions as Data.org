@@ -1,0 +1,46 @@
+* 2. Functions
+
+ Functions are the building-blocks of Lisp programs. They are also the building-blocks of 
+Lisp. In most languages the + operator is something quite different from user-defined
+functions. But Lisp has a single model, function application, to describe all the computa-
+tion done by a program. The Lisp + operator is a function, just like the ones you can 
+define yourself. 
+
+ In fact, except for a small number of operators called special forms, the core of Lisp
+is a collection of Lisp functions. What's to stop you from adding to this collection?
+Nothing at all:if you think of something you wish Lisp could do, you can write it your-
+self, and your new funciton will be treated just like the built-in ones.
+
+ This fact has important consequences for the programmer. It means that any new functions
+could be considered either as an addition to Lisp, or as part of a specific application. 
+Typically, an experienced Lisp programmer will write some of each, adjusting the boundary
+between language and application until the two fit one another perfectly. This book is 
+about how to achieve a good fit between language and application. Since everything we do
+toward this end ultimately depends on functions, functions are the natural palce to begin. 
+
+
+** 2.1 Functions as Data
+
+ Two Things make Lisp functions different. One, mentioned above, is that Lisp itself is a 
+collection of functions. This means that we can add to Lisp new operators of our own. 
+Another important thing to know about functions is that they are Lisp objects. 
+
+ Lisp offers most of the data types one finds in other languages. We get integers and 
+floating-point numbers, strings, arrays, structures, and so on. But Lisp supports one 
+data type which may at first seem surprising: the function. Nearly all programming 
+laguages provide some form of function or procedure. What does it mean to say that Lisp
+provides them as a data type? It means that in Lisp we can do with functions all the 
+things we expect to do with more familiar data types, like integers: create new ones at 
+runtime, store them in variables and in structures, pass them as arguments to other
+functions, and return them as results. 
+
+ The ability to create and return functions at runtime is particularly useful. This might
+sound at first like a dubious sort of advantage, like the self-modifying machine language
+programs one can run on some computers. But creating new functions at runtime turns out
+to be a routinely used Lisp programming technique. 
+
+두 가지가 리습을 특별하게 한다. 하나는 리습 그 자체가 함수들의 모음이라는 것.  
+이 것은 사용자가 리습의 코어 함수들과 동일한 레벨의 함수를 작성할 수 있다는 것을 의미한다. 
+그리고 다른 하나는 함수는 리습의 오브젝트라는 것이다. 
+일반적으로 정수에 하는 것처럼 함수를 만들고 매개변수로 전달하고 리턴하고 구조체 내부에 저장하는 등의 
+작업을 함수로 할 수 있다.  (2017.1.5)
