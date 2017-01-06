@@ -1,0 +1,113 @@
+** 2.2 Defining Functions
+
+ Most people first learn how to make functions with defun. The following expression
+defines a function called double which returns twice its argument. 
+
+(defun double (x) (* x 2))
+
+ Having fed this to Lisp, we can call double in other functions, or from the toplevel:
+
+(double 1)
+2
+
+ A file of Lisp code usually consists mainly of such defuns, and so resembles a file of
+procedure definitions in a language like C or Pascal. But something quite different is
+going on. Those defuns are not just procedure definitions, they're Lisp calls. This 
+distinction will become clearer when we see what's going on underneath defun. 
+
+ Functions are objects in their own right. What defun really does is build one, and store
+it under the name given as the first argument. So as well as calling double, we can get 
+hold of the function which implements it. The usual way to do so is by using the #' 
+(sharp-quote) operator. This operator can be understood as mapping names to actual function
+objects. By affixing it to the name of double
+
+#'double
+
+we get the actual object created by the definition above. Though its printed representation
+will vary from implementation to implementation, a Common Lisp function is a first-class
+object, with all the same rights as more familiar objects like numbers and strings. So we
+can pass this function as an argument, return it, store it in a data structure, and so on:
+
+(eq #'double (car (list #'double)))
+
+ We don't even need defun to make functions. Like most Lisp objects, we can refer to them
+literally. When we want to refer to an integer, we just use the integer itself. To repre-
+sent a string, we use a resies of characters surrounded by double-quotes. To represent a 
+function, we use what's called a lambda-expression. A lambda-expression is a list with 
+three parts: the symbol lambda, a parameter list, and a body of zero or more expressions.
+This lambda-expression refers to a function equivalent to double:
+
+(lambda (x) (* x 2))
+
+It describe a function which takes one argument x, and returns 2x.
+ A lambda-expression can also be considered as the name of a function. If double is a pro-
+per name, like "Michelangelo," then (lambda (x) (* x 2)) is a definite description, like
+"the man who painted the ceiling of the Sistine Chapel." By putting a sharp-quote before
+a lambda-expression, we get the corresponding function:
+
+#'(lambda (x) (* x 2))
+
+This function behaves exactly like double, but the two are distinct objects. In a function
+call, the name of the function appears first, followed by the arguments:
+
+(double 3)
+
+Since lambda-expressions are also names of functions, they can also appear first in 
+function calls:
+
+((lambda (x) (* x 2)) 3)
+
+ In a common Lisp, we can have a function named double and a variable named double at the
+same time. 
+
+(setq double 2)
+
+(double double)
+
+ When a name occurs first in a function call, or is preceded by a sharp-quote, it is taken
+to refer to a function. Otherwise it is treated as a variable name. 
+
+ It is therefore said that Common Lisp has distinct name-spaces for variables and 
+functions. We can have a variable called foo and a function called foo, and they need not
+be identical. This situation  can be confusing, and leads to a certain amount of ugliness
+in code, but it is something that Common Lisp programmers have to live with.
+
+ If necessary, Common Lisp provides two functions which map symbols to the values, or 
+functions, that they represent. The function symbol-value takes a symbol and returns the
+value of the corresponding special variable:
+
+(symbol-value 'double)
+
+while symbol-function does the same for a globally defined function:
+
+(symbol-function 'double)
+
+Note that, since functions are ordinary data objects, a variable could have a function
+as its value:
+
+(setq x #'append)
+
+(eq (symbol-value 'x) (symbol-function 'append))
+
+
+ Beneath the surface, defun is setting the symbol-function of its first argument to a
+function constructed from the remaining arguments. The following two expressions do 
+approximately the same thing:
+
+(defun double (x) (* x 2))
+
+(setf (symbol-function 'double)
+      #'(lambda (x) (* x 2)))
+
+ So defun has the same effect as procedure definition in other languages-to associate
+a name with a piece of code. But the underlying mechanism is not the same. We don't need
+defun to make functions, and functions don't have to be stored away as the value of some
+symbol. Underlying defun, which resembles procedure definition in any other language, 
+is a more general mechanism: building a function and associating it with a certain name
+are two seperate operations. When we don't need the full generality of Lisp's notation of 
+a function, defun makes function definition as simple as in more restrictive languages. 
+
+defun 은 C의 함수 정의와 비슷해 보이지만 그 밑에서 일어나는 일은 다르다. 
+ 함수를 정의하는 것과 정의된 함수에 이름을 붙이는 것은 다른 행동이다. 
+함수 정의 자체는   lambda 식을 이용해서 가능하다.  
+defun 은 람다식을 응용해서 함수 정의에 이름을 붙이는 명령인 것이다.  (2017.1.6)
