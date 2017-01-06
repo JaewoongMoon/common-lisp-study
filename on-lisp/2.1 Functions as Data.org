@@ -19,7 +19,7 @@ about how to achieve a good fit between language and application. Since everythi
 toward this end ultimately depends on functions, functions are the natural palce to begin. 
 
 
-** 2.1 Functions as Data
+** 2.1 Functions as Data (데이터로서의 함수)
 
  Two Things make Lisp functions different. One, mentioned above, is that Lisp itself is a 
 collection of functions. This means that we can add to Lisp new operators of our own. 

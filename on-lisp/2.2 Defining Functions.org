@@ -1,4 +1,4 @@
-** 2.2 Defining Functions
+** 2.2 Defining Functions (함수 정의)
 
  Most people first learn how to make functions with defun. The following expression
 defines a function called double which returns twice its argument. 
