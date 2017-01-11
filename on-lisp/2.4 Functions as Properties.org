@@ -1,0 +1,56 @@
+** 2.4 Functions as Properties (속성으로서의 함수)
+
+ The fact that functions are Lisp objects also allows us to write programs which can be
+extended to deal with new cases on the fly. Suppose we want to write a function which 
+takes a type of animal and behaves appropriately. In most languages, the way to do this
+would be with a case statement, and we can do it this way in Lisp as well:
+
+(defun behave (animal)
+  (case animal
+    (dog (wag-tail)
+	     (bark))
+    (rat (scurry)
+	     (squeak))
+    (cat (rub-legs)
+	     (scratch-carpet))))
+
+ What if we want to add a new type of animal? If we were planning to add new animals,
+it would have been better to define behave as follows:
+
+(defun behave (animal)
+  (funcall (get animal 'behavior)))
+
+and to define the behavior of an individual animal as a function stored, for example, 
+on the property list of its name:
+
+(setf (get 'dog 'behavior)
+      #'(lambda ()
+           (wag-tail)
+           (bark)))
+
+This way, all we need do in order to add a new animal is define a new property. 
+No functions have to be rewritten. 
+ The second approach, though more flexible, looks slower. It is. If speed were 
+critical, we would use structures instead of property lists and, especially, 
+compiled instead of interpreted functions. (Section 2.9 explains how to make these.)
+With structures and compiled functions, the more flexible type of code can approach
+or exceed the speed of versions using case statements. 
+
+ This use of functions corresponds to the concept of a method in object-oriented 
+programming. Generally speaking, a method is a function which is a property of an 
+object, and that's just what we have. If we add inheritance to this model, we'll have
+all the elements of object-oriented programming. Chapter 25 will show that this can be
+done with surprisingly little code. 
+
+ One of the big selling points of object-oriented programming is that it makes programs
+extensible. This prospect excites less wonder in the Lisp world, where extensibility 
+has always been taken for granted. If the kind of extensibility we need does not depend
+too much on inheritance, then plain Lisp may already be sufficient. 
+
+예를들어 동물의 타입에 따라 어떤 행동을 할지를 코드로 나타내려고 할 때,  
+일반적으로는 케이스 문으로 표현할 수 있다. 그러나 이 때 동물의 종류가 늘어날 때는 어떻게 할 것인가? 
+케이스 문을 사용했다면 케이스문 밑에  계속 코드를 추가해야 한다. 
+(또한 해당 함수도 새로 컴파일해야 한다 .)  
+이 보다는 이 함수에서 동물의 행동을 호출하도록 하고 각 동물 오브젝트가 그 행동을 구현하도록 만드는 것이 
+낫다. 이처럼 오브젝트가 펑션을 속성으로 가지고 있도록 하는 테크닉은 
+객체 지향 프로그래밍의 핵심 (클래스) 이기도 하다.  (2017.1.11)

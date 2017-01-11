@@ -1,0 +1,87 @@
+** 2.3 Functional Arguments (함수를 인수로 취하기)
+
+ Having functions as data objects means, among other things, that we can pass them as 
+arguemtns to other functions. This possibility is partly responsible for the importance
+of bottom-up programming in Lisp. 
+
+ A Language which allows functions as data objects must also provide some way of calling
+them. In Lisp, this function is apply. Generally, we call apply with two arguments: 
+a function, and a list of arguments for it. The following four expressions all have the
+same effect:
+
+(+ 1 2)
+
+(apply #'+ '(1 2))
+
+(apply (symbol-function '+) '(1 2))
+
+(apply #'(lambda (x y) (+ x y)) '(1 2))
+
+In common Lisp, apply can take any number of arguments, and the function given four will
+be applied to the list made by consing the rest of the arguments onto the list given 
+last. So the expression
+
+(apply #'1+ 1'(2))
+
+is equivalent to the preceding four. If it is inconvenient to give the arguemtns as a 
+list, we can use funcall, which differs from apply only in this respect. This expression
+
+(funcall #'+ 1 2)
+
+has the same effect as those above.
+ Many built-in Common Lisp functions take functional arguments. Among the most frequently
+used are the mapping functions. For exmaple, mapcar takes two or more arguments, a function
+and one or more lists (one for each parameter of the function), and applies the function
+successively to elements of each list:
+
+ Lisp programs frequently want to do something to each element of a list and get back a 
+list of results. The first example above illustrates the conventional way to do this:
+make a function which does what you want done, and mapcar it over the list. 
+ 
+ Already we see how convenient it is to be able to treat functions as data. In many 
+languages, even if we could pass a function as an argument to something like mapcar, 
+it would still have to be a funtion defined in some source file beforehand. If just one
+piece of code wanted to add 10 to each element of a list, we would have to define a 
+function, called plus_ten or some such, just for this one use. With lambda-expressions,
+we can refer to functions directly.
+
+ One of the big differences between Common Lisp and the dialects which preceded it are
+the large number of built-in functions that take functional arguments. Two of the most
+commonly used, after the ubiquitous mapcar, are sort and remove-if. The former is a 
+general-purpose sorting function. It takes a list and a predicate, and returns a list
+sorted by passing each pair of elements to the predicate.
+
+ To remember how sort works, it helps to remember that if you sort a list with no
+duplicate by <, and then apply < to the resulting list, it will return true.
+
+ If remove-if weren't included in Common Lisp, it might be the first utility you would
+write. It takes a function and a list, and returns all the elements of the list for
+which the function returns false. 
+
+ As an example of a function which takes functional arguments, here is a definition of 
+a limited version of remove-if. 
+
+(defun our-remove-if (fn lst)
+  (if  (null lst)
+     nil
+	 (if (funcall fn (car list))
+	     (our-remove-if fn (cdr lst))
+		 (cons (car lst) (our-remove-if fn (cdr lst))))))
+
+ Note that within this definition fn is not sharp-quoted. Since functions are data 
+objects, a variable can have a function as its regular value. That's what's happening
+here. Sharp-quote is only for referring to the function named by a symbol-usually one 
+globally defined as such with defun. 
+
+ As Chapter 4 will show, writing new utilities which take functional arguments is an 
+important element of bottom-up programming. Common Lisp has so many utilities built-in
+that the one you need may exist already. But whether you use built-ins like sort, or 
+write your own utilities, the principle is the same. Instead of wiring in functionality, 
+pass a functional argument. 
+
+함수가 데이터 오브젝트라는 것은 함수를 인수로 넘길 수 있다는 것을 의미한다. 
+그리고 이 것은 보톰업 프로그래밍의 중요한 요소이다. 여러 기능을 함수안에 하드코딩하기 보다는 
+하나의 기능을 하는 함수로 분리해서 함수를 인수로 넘겨라. (2017.1.10)
+
+
+
