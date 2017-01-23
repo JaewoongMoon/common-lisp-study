@@ -1,0 +1,132 @@
+** 2.6 Closures
+
+ Because Common Lisp is lexically scoped, when we define a function containing free 
+variables,the system must save copies of the bindings of those variables at the time 
+the function was defined. Such a combination of a function and a set of variable
+bindings is called a /closure/. Closures turn out to be useful in a wide variety of 
+applications. 
+
+ Closures are so pervasive in Common Lisp programs that it's possible to use them 
+without even knowing it. Every time you give mapcar a sharp-qutes lambda-expression
+containing free variables, you're using closures. For example, suppose we want to 
+write a function which takes a list of numbers and adds a certain amount to each one. 
+The function list+
+
+(defun list+ (lst n)
+  (mapcar #'(lambda (x) (+ x n))
+          lst))
+
+will do what we want:
+> (list+ '(1 2 3) 10)
+(11 12 13)
+
+ If we look closely at the function which is passed to *mapcar* within *list+*, it's 
+actually a closure. The instance of n is free, and its binding comes from the surrounding
+environment. Under lexical scope, every such use of a mapping function causes the creation
+of a closure. 
+
+ Closures play a more conspicous role in a style of programming prompted by Abelson and
+Sussman's classic /Structure and Interpretation of Computer Programs/. Closure are 
+functions with local state. The simplest way to use this state is in a situation like the 
+following:
+
+(let ((counter ))
+   (defun new-id () (incf counter))
+   (defun reset-id () (setq counter 0)))
+
+ These two functions share a variable which servers as a counter. The first one returns 
+successive values of the counter, and the second resets the counter to 0. The same thing
+could be done by making the counter a global variable, but this way it is protected from 
+unintended references. 
+ It's also useful to be able to return functions wich local state. For example, the function
+make-adder
+
+(defun make-adder (n)
+   #'(lambda (x) (+ x n)))
+
+takes a number, and returns a closure which, when called, adds that nubmer to its argument. 
+We can make as many instances of adders as we want:
+
+(setq add2 (make-adder 2)
+      add10 (make-adder 10))
+
+
+In the closures returned by make-adders, the internal state is fixed, but it's also 
+possible to make closures which can be asked to change their state. 
+
+(defun make-adderb (n)
+   #'(lambda (x &optional change)
+       (if change
+           (setq n x)
+           (+ x n))))
+
+This new version of make-adder returns closures which, when called with one argument, 
+behave just like the old ones. 
+
+However, when the new type of adder is called with a non-nil second argument, its 
+internal copy of n will be reset to the value passed as the first argument:
+
+> (funcall addx 100 t)
+100
+> (funcall addx 3)
+103
+
+ It's even possible to return a group of closures which share the same data objects.
+Figure 2.1 contains a function which creates primitive databases. It takes an assoc-
+list (db), and returns a list of three closures which query, add, and delete entries,
+respectively.
+
+ Each call to make-dbms makes a new database-a new set of functions closed over their
+own shared copy of an assoc-list.
+
+> (setq cities (make-dbms '((boston . us) (paris .france))))
+
+
+; Figure 2.1: Three closures share a list. 
+(defun make-dbms (db)
+  (list
+     #'(lambda (key)
+         (cdr (assoc key db)))
+     #'(lambda (key val)
+         (push (cons key val) db)
+         key)
+     #'(lambda (key)
+         (setf db (delete key db :key #'car))
+         key)))
+
+
+The actual assoc-list within the database is invisible from the outside world-we can't
+even tell that it's an assoc-list--but it can be reached through the functions which are
+components of cities:
+
+> (funcall (car cities) 'boston)
+US
+> (funcall (second cities) 'london 'england)
+LONDON
+> (funcall (car cities) 'london)
+ENGLAND
+
+Calling the car of a list is a bit ugly. In real programs, the access functions might
+instead be entries in a structure. Using them could also be cleaner-databases could be
+reached indirectly via funcitons like:
+
+(defun lookup (key db)
+   (funcall (car db) key))
+
+However, the basic behavior of closures is independent of such refinements. 
+ In real programs, the closures and data structures would also be more elaborate than 
+those we see in make-adder or make-dbms. The single shared varibale could be any number
+of variables, each bound to any sort of data structure.
+
+ Closures are one of the distinct, tangible benefits of Lisp. Some Lisp programs could,
+with effort, be translated into less powerful languages. But just try to translate a 
+program which uses closures as above, and it will become evident how much work this 
+abstraction is saving us. Later chapters will deal with closures in more detail.
+Chapter 5 shows how to use them to build compound functions, and Chapter 6 looks at 
+their use as a substitute for traditional data strcutures.
+
+커먼 리습은 lexically scoped 이기 때문에, 함수가 정의될 때의 변수 바인딩을 어딘가에 저장하고 있어야 
+한다.  이 것을 클로저라고 부른다. 즉, 클로저란 정의될 때의 상태를 기억하고 있는 함수이다. 
+클로저를 잘 사용하면 프로그램을 짤 때 도움이 된다.  (2017.1.23)
+
+
