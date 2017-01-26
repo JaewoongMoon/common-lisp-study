@@ -1,0 +1,54 @@
+** 2.6 Local Functions (로컬 함수)
+
+ When we define funcitons with lambda-expressions, we face a restriction which 
+doesn't arise with defun: a function defined in a lambda-expression doesn't have 
+a name and therefore has no way of referring to itself.
+ This mean that in Common Lisp we can't use lambda to define a recursive function. 
+
+ If we want to apply some function to all the elements of a list, we use the most 
+familiar of Lisp idioms:
+
+> (mapcar #'(lambda (x) (+ 2 x))
+           '(2 5 7 3))
+
+(4 7 9 5)
+
+ What about cases where we want to give a recursive function as the first argument
+to mapcar? If the function has been defined with defun, we can simply refer to it
+by name:
+
+> (mapcar #'copy-tree '((a b) (c d e)))
+
+((A B) (C D E))
+
+ But now suppose that the function has to be a closure, taking some bindings from
+the environment in which the mapcar occurs. In our example list+,
+~
+(defun list+ (lst n)
+   (mapcar #'(lambda (x) (+ x n))
+           lst))
+~
+
+ the first argument to mapcar, #'(lambda (x) (+ x n)), must be defined within list+
+because it needs to catch the binding of n. So far so good, but what if we want to 
+give *mapcar* a function which both needs local bindings /and/ is recursive?
+We can't use a function defined elsewhere with *defun*, because we need bindings
+from the local environment. And we can't use *lambda* to define a recursive func-
+tion, because the function will have no way of referring to itself. 
+
+ Common Lisp gives us *labels* as a way out of this dilemma. With on important
+reservation, *labels* could be described as a sort of *let* for functions. 
+Each of the binding specifications in a labels expression should have the form
+
+(<name> <parameters> . <body>)
+
+Within the labels expression, <name> will refer to a function equivalent to:
+
+#'(lambda <parameters> . <body>)
+
+So for example:
+
+
+
+
+
