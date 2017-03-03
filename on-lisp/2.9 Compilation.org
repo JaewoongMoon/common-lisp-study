@@ -1,0 +1,41 @@
+** 2.9 Compilation
+
+Lisp functions can be compiled either individually or by the file. If you just type
+a defun expression into the toplevel,
+
+> (defun foo (x) (1+ x))
+
+FOO
+
+many implementations will create an interpreted function. You can check whether
+a given function is compiled by feeding it to compiled-function-p:
+
+> (compiled-function-p #'foo)
+
+We can have foo compiled by giving its name to compile
+> (compile ’foo)
+FOO
+
+which will compile the definition of foo and replace the interpreted version with
+◦ a compiled one.
+
+> (compiled-function-p #’foo)
+
+T
+
+Compiled and interpreted functions are both Lisp objects, and behave the same,
+except with respect to compiled-function-p. Literal functions can also be
+compiled: compile expects its first argument to be a name, but if you give nil
+as the first argument, it will compile the lambda-expression given as the second
+argument.
+
+> (compile nil '(lambda (x) (+ x 2)))
+#<Compiled-Function BF55BE>
+
+If you give both the name and function arguments, compile becomes a sort of 
+compiling defun:
+
+> (progn (compile 'bar '(lambda (x) (* x 3)))
+         (compiled-function-p #'bar))
+
+리습은 프로그램 실행중에 컴파일을 수행할 수 있는 명령어를 포함하고 있다. 그러나 실제 프로그래밍에서 사용되어야 하는 상황은 극히 적다. (새로운 언어를 디자인하는 경우가 아니라면)  대부분의 경우는 매크로로 해결할 수 있다. 따라서 compile 명령은 매우 조심해서 사용하라. (2017.3.3) 

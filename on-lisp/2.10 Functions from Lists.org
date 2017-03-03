@@ -1,0 +1,15 @@
+** 2.10 Functions from Lists (리스트에서 만들어진 함수)
+
+In some earlier dialects of Lisp, functions were represented as lists. This gave Lisp
+programs the remarkable ability to write and execute their own Lisp programs.
+In Common Lisp, functions are no longer made of lists—good implementations
+compile them into native machine code. But you can still write programs that
+write programs, because lists are the input to the compiler.
+It cannot be overemphasized how important it is that Lisp programs can
+write Lisp programs, especially since this fact is so often overlooked. Even
+experienced Lisp users rarely realize the advantages they derive from this feature
+of the language. This is why Lisp macros are so powerful, for example. Most
+of the techniques described in this book depend on the ability to write programs
+which manipulate Lisp expressions.
+
+리습의 가장 강력한 힘은 (매크로를 이용해서) 프로그램을 만드는 프로그램을 작성할 수 있다는 것이다. 이 사실은 너무도 중요하며, 이 책에서 설명하는 대부분의 테크닉은 이 능력에 기반하고 있다. (2017.3.3)

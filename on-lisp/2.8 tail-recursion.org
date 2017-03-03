@@ -1,0 +1,72 @@
+** 2.8 Tail Recursion
+A recursive function is one that calls itself. Such a call is /tail-recursive/ 
+if no work remains to be done in the calling funciton afterwards. This function
+is not tail-recursive
+
+(defun our-length (lst)
+  (if (null lst)
+      0
+      (1+ (our-length (cdr lst)))))
+
+because on returning from the recursive call we have to pass the result to 1+.
+The following function is tail-recursive, though
+
+(defun our-find-if (fn lst)
+  (if (funcall fn (car lst))
+      (car lst)
+	  (our-find-if fn (cdr lst))))
+
+because the value of the recursive call is immediately returned. 
+ Tail-recursion is desirable because many Common Lisp compilers can transform 
+tail-recursive fucntions into loops. With such a compiler, you can have the 
+elegance of recursion in your source code without the overhead of function calls
+at runtime. The gain in speed is usually great enough that programmers go out of 
+their way to make functions tail-recursive. 
+  A function which isn't tail-recursive can often be transformed into one that is 
+by embedding in it a local function which uses an /accumulator./ In this context,
+an accumulator is a parameter representing the value computed so far. For example,
+our-length could be transformed into 
+
+(defun our-length (lst)
+  (labels ((rec (lst acc)
+          (if (null lst)
+		  acc
+		  (rec (cdr lst) (1+ acc)))))
+(rec lst 0)))
+
+where the number of list elements seen so far is contained in a second parameter,
+*acc*. When the recursion reaches the end of the list, the value of *acc* will be
+the totla length, which can just be returned. By accumulating the value as we go
+down the calling tree instead of constructing it on the way back up, we can make 
+*rec* tail-recursive. 
+
+ Many Common Lisp compilers can do tail-recursion optimization, but not all of them
+do it by default. So after writing your functions to be tail-recursive, you may 
+aslo want to put
+
+(proclaim '(optimize speed))
+
+at the top of the file, to ensure that the compiler can take advantage of your 
+efforts.
+ Given tail-recursion and type declarations, existing Common Lisp compilers can 
+generate code that runs as fast as, or faster than, C. Richard Gabriel gives as 
+an example the following function, which returns the sum of the integers from 1 
+to n:
+
+(defun triangle (n)
+   (labels ((tri (c n)
+              (declare (type fixnum n c))
+              (if (zerop n)
+                  c
+                  (tri (the fixnum (+ n c))
+                       (the fixnum (- n 1))))))
+   (tri 0 n)))
+
+This is what fast Common Lisp code looks like. At first it may not seem natural
+to write functions this way. If's often a good idea to begin by writing a function
+in whatever way seems most natural, and then, if necessary, transforming it into a 
+tail-recursive equivalent. 
+
+재귀를 사용할 때 연산의 결과값을 계속 축적하는 어큐멀레이터(accumulator) 를 사용하면 꼬리-재귀 가 된다. 이는 본질적으로 loop 와 성능이 동일하다. 많은 리습 컴파일러는 꼬리재귀를 사용할 경우 loop 문으로 해석하는 기능을 가지고 있다.  가능한한 꼬리재귀로 작성하려고  노력하는 것은  바람직하다. 먼저, 자연스러운 상태의 재귀를 작성한 후에 꼬리 재귀로 발전시키는 것도 좋은 방법이다. (2017.3.1)
+					   
+					   
