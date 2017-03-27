@@ -3,18 +3,21 @@
 
 Paul graham's Ansi Common Lisp - 414p
 
-3 page  per 1 hour.
-
-It takes at least 138 hours to be done. and may be more.
-
-So I'm gonna use 4 hours a week to study this book.
-
-11 page per week.
-
 * Log
 
 ** 10th week
-1. Introduction (1~12p)
+1. Introduction (1~6p)
+
+** 11th week
+2. Welcome to Lisp (7~19p)
+
+** 12th week 
+2. Welcome to Lisp (20~30)
+
+** 13th week
+3. Lists 
+3.1 Conses ~ 3.7 Mapping Functions (31~40, 2017.3.27(Mon))
+
 
 
 
