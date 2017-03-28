@@ -40,3 +40,55 @@
 
 
 ; 3.7 Mapping Functions
+(maplist #'(lambda (x) x)
+         '(a b c))
+
+
+; 3.8 Trees
+; Conses can also be considered as binary trees, 
+; copy-tree takes a tree and returns a copy of it.
+(defun our-copy-tree (tr)
+  (if (atom tr)
+      tr
+      (cons (our-copy-tree (car tr))
+            (our-copy-tree (cdr tr)))))
+
+(and (integerp x) (zerop (mod x 2)))
+
+; 3.9 Understanding Recursion
+; A programmer defining a recursive function usually does not think explicitly
+; about the sequence of invocations that results from calling it.
+
+; The secret to understanding recursion is a lot like the secret for dealing
+; with parentheses. How do you see which parenthesis matches which?
+; You don't have to. How do you visualize all those invocations?
+; You don't have to.
+
+; When a recursive function doesn't behabe as you intended, it is usually because
+; the base case is wrong.
+
+; 3.10 Sets
+; subseq
+(subseq '(a b c d) 1 )
+
+(defun mirror? (s)
+  (let ((len (length s)))
+    (and (evenp len)
+         (let ((mid (/ len 2)))
+           (equal (subseq s 0 mid)
+                  (reverse (subseq s mid)))))))
+
+
+; Sort
+; You have to be careful when using sort, because it's destructive.
+
+(defun nthmost (n lst)
+  (nth (- n 1)
+       (sort (copy-list lst) #'>)))
+    
+         
+; 3.12 Stacks
+; The representation of lists as conses makes it natural to use them as
+; pushdown stacks.
+
+    

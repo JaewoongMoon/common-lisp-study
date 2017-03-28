@@ -17,6 +17,7 @@ Paul graham's Ansi Common Lisp - 414p
 ** 13th week
 3. Lists 
 3.1 Conses ~ 3.7 Mapping Functions (31~40, 2017.3.27(Mon))
+3.8 Trees ~ 3.11 Sequences (41~ 47, 2017.3.28(Tues))
 
 
 
